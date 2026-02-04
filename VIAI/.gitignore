@@ -1,0 +1,58 @@
+# Build artifacts
+build/
+build-*/
+*.o
+*.obj
+*.lib
+*.dll
+*.exe
+*.so
+*.dylib
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+Makefile
+*.cmake
+cmake_install.cmake
+
+# IDE files
+.vscode/
+.vs/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
+# Logs
+logs/
+*.log
+*.txt
+*.out
+
+# Models (optional - uncomment if you don't want to track large model files)
+# models/*.onnx
+# models/*.engine
+# models/*.trt
+
+# Plugins
+plugins/*.dll
+plugins/*.so
+plugins/*.dylib
+
+# Runtime files
+*.pid
+*.seed
+*.pid.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
