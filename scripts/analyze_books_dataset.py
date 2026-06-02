@@ -114,7 +114,7 @@ def analyze_book_file(file_path: Path):
             result["estimated_chars_total"] = result.get("chars_analyzed", 0)
             
             # 表/代码/列表特征
-            has_table = any('|' in line and '---' in text for line in lines)
+            has_table = any('|' in line and '---' in content for line in lines)
             has_code = any('```' in line or '    ' in line[:4] for line in lines[:100])
             has_list = any(line.strip().startswith(('- ', '* ', '•')) for line in lines[:200])
             
