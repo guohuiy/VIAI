@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "ebook-content-studio"
+version = "0.1.0"
+description = "基于 Qwen3.5 + llama.cpp 的全本地化、隐私安全的智能内容生成平台"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+license = { text = "MIT" }
+
+authors = [
+  { name = "guohuiy" },
+]
+
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Text Processing :: General",
+]
+
+dependencies = [
+  "chromadb>=0.5.0",
+  "PyMuPDF>=1.23.0",
+  "chardet>=5.0.0",
+  "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov>=4.0",
+  "flake8>=6.0",
+  "ruff>=0.1.0",
+  "build>=1.0",
+  "wheel>=0.40",
+  "safety>=2.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["core*", "preprocessing*", "retrieval*", "agents*", "services*", "storage*", "scripts*"]
+exclude = ["tests*", "huiyo_env*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+exclude = ["huiyo_env", "models", "data", "output", "runtime"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.coverage.run]
+source = ["core", "preprocessing", "retrieval", "agents", "services", "storage"]
+omit = ["*/tests/*", "*/__pycache__/*"]

@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+huiyo_env/
+env/
+venv/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Large model files (not tracked in git)
+models/*.gguf
+
+# Data files (user's private data)
+data/raw_books/*
+data/processed/*
+data/vector_db/*
+data/library.db
+!data/raw_books/.gitkeep
+!data/processed/.gitkeep
+!data/vector_db/.gitkeep
+
+# Runtime state
+runtime/*.json
+runtime/*.yaml
+runtime/_prompt.txt
+
+# Generated output
+output/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
+
+# Large binary wheel (local)
+torch-*.whl

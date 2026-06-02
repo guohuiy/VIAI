@@ -1,0 +1,28 @@
+# ebook-content-studio 默认配置
+
+model:
+  llm_path: "./models/Qwen3.5-2B-Model/Qwen3.5-2B-Q8_0.gguf"
+  llm_cli: "C:/tools/llama.cpp/build/bin/Release/llama-cli.exe"
+  embed_path: "./models/Qwen3.5-2B-Model/Qwen3.5-2B-Q8_0.gguf"
+  embed_cli: "C:/tools/llama.cpp/build/bin/Release/llama-embedding.exe"
+  context_size: 8192
+  max_tokens: 4096
+  temperature: 0.7
+
+retrieval:
+  top_k_vector: 50
+  top_k_fts: 50
+  top_k_rerank: 20
+  rrf_k: 60
+  max_context_tokens: 4096
+
+chunking:
+  target_tokens: 512
+  overlap_tokens: 128
+  min_tokens: 128
+
+storage:
+  vector_db: "./data/vector_db"
+  sqlite: "./data/library.db"
+  raw_books: "./data/raw_books"
+  processed: "./data/processed"
