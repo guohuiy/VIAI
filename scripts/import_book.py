@@ -23,8 +23,8 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 # 确保项目根目录在 Python 路径中
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from core.config import STORAGE_CONFIG  # noqa: E402
-from services.book_service import BookService, compute_file_hash, infer_category_from_path  # noqa: E402
+from core.config import STORAGE_CONFIG  # noqa: E402, I001
+from services.book_service import BookService, compute_file_hash, infer_category_from_path  # noqa: E402, I001
 
 # 如果指定了 --full-scan，从该根目录扫描
 DEFAULT_BOOKS_ROOT = Path(r"C:\Users\huiya\Desktop\books")
