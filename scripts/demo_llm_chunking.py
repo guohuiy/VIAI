@@ -3,7 +3,7 @@ Demo：使用 Qwen3.5-2B 模型进行书籍智能分块测试
 对比纯正则分块 vs LLM 分块的效果差异
 
 用法：
-  python scripts/demo_llm_chunking.py 
+  python scripts/demo_llm_chunking.py
   python scripts/demo_llm_chunking.py --count 5
   python scripts/demo_llm_chunking.py --category "历史军事"
 """
@@ -129,7 +129,7 @@ def regex_chunking(text: str) -> tuple[List[Dict], List[str]]:
 def llm_analyze_structure(text: str, title: str, max_context_chars: int = 3000) -> dict:
     """
     使用 Qwen3.5-2B 分析书籍结构，返回章节/分块建议
-    
+
     由于 2B 模型上下文限制（8K tokens ≈ 4000-5000 中文字符），
     对长文本只分析开头部分来识别结构
     """

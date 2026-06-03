@@ -107,7 +107,7 @@ def read_with_encoding(file_path: str) -> tuple[str, str]:
 def detect_chapters_regex(text: str) -> List[Dict[str, Any]]:
     """
     多重正则章节检测
-    
+
     支持的模式（按优先级）：
     1. 第X章 / 第X回 / 第X节 / 第X部分
     2. Book X / Chapter X / Section X (英文)
@@ -226,7 +226,7 @@ def chunk_by_chapters(text: str, chapters: List[Dict], book_id: str, category: s
             continue
 
         # 计算字符位置
-        start_char = sum(len(l) + 1 for l in lines[:start])
+        start_char = sum(len(line) + 1 for line in lines[:start])
         end_char = start_char + len(chapter_text)
 
         # 如果章节太长，进一步切分
@@ -320,7 +320,7 @@ def generate_book_summary(content: str, title: str) -> str:
 def demo_build_knowledge_base(books_dir: str, max_books: int = 0, category_filter: str = None):
     """
     知识库构建 Demo 主流程
-    
+
     Args:
         books_dir: 书籍根目录
         max_books: 最大处理数量（0=全部）
