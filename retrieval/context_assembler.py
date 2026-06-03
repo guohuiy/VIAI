@@ -3,10 +3,10 @@
 将检索结果组装成 LLM 可用的上下文
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
-from core.llm import estimate_tokens
 from core.config import RETRIEVAL_CONFIG
+from core.llm import estimate_tokens
 
 
 class ContextAssembler:

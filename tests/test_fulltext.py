@@ -4,7 +4,9 @@
 
 import os
 import tempfile
+
 import pytest
+
 from retrieval.fulltext_engine import FullTextEngine
 
 

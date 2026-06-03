@@ -10,21 +10,20 @@
   - 自动摘要生成
 """
 
-import uuid
-import json
 import hashlib
-from typing import List, Dict, Any, Optional
+import json
+import uuid
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
-from preprocessing.parsers.txt_parser import TxtParser
-from preprocessing.parsers.pdf_parser import PdfParser
-from preprocessing.structure.chapter_detector import detect_structure
-from preprocessing.chunking.semantic_chunker import SemanticChunker
 from preprocessing.chunking.recursive_chunker import RecursiveChunker
-from retrieval.vector_store import VectorStore
+from preprocessing.chunking.semantic_chunker import SemanticChunker
+from preprocessing.parsers.pdf_parser import PdfParser
+from preprocessing.parsers.txt_parser import TxtParser
+from preprocessing.structure.chapter_detector import detect_structure
 from retrieval.fulltext_engine import FullTextEngine
+from retrieval.vector_store import VectorStore
 from storage.db import DatabaseManager
-from core.config import STORAGE_CONFIG
 
 
 def detect_language(content: str) -> str:

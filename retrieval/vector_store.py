@@ -3,8 +3,7 @@ ChromaDB 向量存储操作模块
 封装向量数据库的增删查等操作
 """
 
-import os
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
 from core.config import STORAGE_CONFIG
 

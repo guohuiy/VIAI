@@ -3,13 +3,13 @@
 为每个子主题生成检索查询，调用混合检索获取素材，评估覆盖度
 """
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
-from .base import BaseAgent
+from retrieval.context_assembler import ContextAssembler
 from retrieval.hybrid_retriever import HybridRetriever
 from retrieval.reranker import Reranker
-from retrieval.context_assembler import ContextAssembler
-from core.llm import call_llama_cpp
+
+from .base import BaseAgent
 
 
 class MaterialAgent(BaseAgent):

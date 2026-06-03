@@ -4,8 +4,8 @@ PDF 文件解析器
 """
 
 import os
-from typing import List, Optional, Tuple
-from .base import BaseParser, ParseResult, PageData, TextBlock
+
+from .base import BaseParser, PageData, ParseResult, TextBlock
 
 
 class PdfParser(BaseParser):

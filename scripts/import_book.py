@@ -12,8 +12,8 @@
 """
 
 import argparse
-import sys
 import io
+import sys
 from pathlib import Path
 
 # Windows GBK 编码兼容：设置标准输出为 UTF-8
@@ -23,9 +23,8 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 # 确保项目根目录在 Python 路径中
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from services.book_service import BookService, compute_file_hash, infer_category_from_path
-from core.config import STORAGE_CONFIG
-
+from core.config import STORAGE_CONFIG  # noqa: E402
+from services.book_service import BookService, compute_file_hash, infer_category_from_path  # noqa: E402
 
 # 如果指定了 --full-scan，从该根目录扫描
 DEFAULT_BOOKS_ROOT = Path(r"C:\Users\huiya\Desktop\books")
@@ -129,7 +128,7 @@ def main():
         for b in books:
             c = b.get('category', '未分类')
             cats[c] = cats.get(c, 0) + 1
-        print(f"\n分类统计:")
+        print("\n分类统计:")
         for c, n in sorted(cats.items(), key=lambda x: -x[1]):
             print(f"  {c}: {n} 本")
         return
@@ -197,7 +196,7 @@ def main():
     # Dry-run 模式：只看不导入
     if args.dry_run:
         print(f"\n🔍 预览模式: 将处理 {len(files_to_import)} 个文件")
-        print(f"\n分类分布:")
+        print("\n分类分布:")
         cat_counts = {}
         for _, c in files_to_import:
             cat_counts[c] = cat_counts.get(c, 0) + 1
@@ -206,7 +205,7 @@ def main():
         print(f"\n共 {len(files_to_import)} 本，涉及 {len(categories)} 个分类")
         print("(添加 --dry-run 可移除，实际执行导入)")
         if len(files_to_import) > 20:
-            print(f"\n前10本预览:")
+            print("\n前10本预览:")
             for f, c in files_to_import[:10]:
                 print(f"  [{c}] {Path(f).name}")
         return
@@ -278,14 +277,14 @@ def main():
 
     # 最终统计
     print(f"\n{'='*50}")
-    print(f"📊 导入完成统计")
+    print("📊 导入完成统计")
     print(f"{'='*50}")
     print(f"  成功: {imported} 本")
     print(f"  跳过: {skipped} 本")
     print(f"  重新导入: {reindexed} 本")
     print(f"  失败: {errors} 本")
     if imported > 0 or reindexed > 0:
-        print(f"\n💡 提示: 如需重建向量索引，请运行 python scripts/build_index.py")
+        print("\n💡 提示: 如需重建向量索引，请运行 python scripts/build_index.py")
 
 
 if __name__ == "__main__":

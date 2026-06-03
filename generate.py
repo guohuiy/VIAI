@@ -15,8 +15,8 @@ ebook-content-studio 主入口（命令行工具）
 """
 
 import argparse
-import sys
 import io
+import sys
 from pathlib import Path
 
 # Windows GBK 编码兼容：设置标准输出为 UTF-8
@@ -26,7 +26,7 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 # 确保项目根目录在 Python 路径中
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from services.generation_service import GenerationService
+from services.generation_service import GenerationService  # noqa: E402
 
 
 def main():
@@ -130,7 +130,7 @@ def main():
         print("⏹  用户取消生成")
         sys.exit(0)
 
-    print(f"\n✅ 生成完成!")
+    print("\n✅ 生成完成!")
     print(f"📄 输出文件: {result.get('output_path', 'N/A')}")
     print(f"📝 实际字数: {result.get('word_count', 0)}")
 

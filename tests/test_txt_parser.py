@@ -4,7 +4,9 @@
 
 import os
 import tempfile
+
 import pytest
+
 from preprocessing.parsers.txt_parser import TxtParser, detect_encoding_robust
 
 

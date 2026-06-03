@@ -3,10 +3,12 @@
 当分块后仍有超长块时，递归切分至目标大小（带最大深度限制）
 """
 
-from typing import List, Optional
-from .semantic_chunker import Chunk
-from .fixed_chunker import FixedChunker
+from typing import List
+
 from core.config import CHUNKING_CONFIG
+
+from .fixed_chunker import FixedChunker
+from .semantic_chunker import Chunk
 
 
 class RecursiveChunker:

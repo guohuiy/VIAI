@@ -5,10 +5,8 @@ TXT 文件解析器
 """
 
 import os
-from typing import List, Optional
 
-from .base import BaseParser, ParseResult, PageData, TextBlock
-
+from .base import BaseParser, PageData, ParseResult, TextBlock
 
 # 常见中文编码列表（按优先级排列）
 CHINESE_ENCODINGS = ["gb18030", "gbk", "gb2312", "utf-8", "big5", "utf-16"]

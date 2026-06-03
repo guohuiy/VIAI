@@ -3,13 +3,13 @@
 编排需求分析 → 素材检索 → 脚本生成的完整流程
 """
 
-from typing import Dict, Any, Optional
 from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict
 
-from agents.requirement_agent import RequirementAgent
-from agents.material_agent import MaterialAgent
 from agents.generation_agent import GenerationAgent
+from agents.material_agent import MaterialAgent
+from agents.requirement_agent import RequirementAgent
 
 
 class GenerationService:

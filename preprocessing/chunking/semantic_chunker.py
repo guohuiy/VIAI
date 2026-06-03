@@ -4,8 +4,8 @@
 """
 
 import uuid
-from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
 
 from core.config import CHUNKING_CONFIG
 from core.embedding import get_embedding
@@ -77,7 +77,7 @@ class SemanticChunker:
             chapter_text = "\n".join(lines[start_line:end_line]).strip()
 
             # 计算字符位置
-            start_char = sum(len(l) + 1 for l in lines[:start_line])
+            start_char = sum(len(line) + 1 for line in lines[:start_line])
             end_char = start_char + len(chapter_text)
 
             if not chapter_text:
@@ -190,7 +190,6 @@ class SemanticChunker:
         Returns:
             相邻段落相似度列表 (长度 = len(paragraphs) - 1)
         """
-        import numpy as np
 
         if len(paragraphs) < 2:
             return []

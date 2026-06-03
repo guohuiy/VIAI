@@ -4,8 +4,10 @@
 """
 
 from typing import List, Optional
-from .semantic_chunker import Chunk
+
 from core.config import CHUNKING_CONFIG
+
+from .semantic_chunker import Chunk
 
 
 class FixedChunker:

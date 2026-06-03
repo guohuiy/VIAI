@@ -2,7 +2,6 @@
 测试分块器模块
 """
 
-import pytest
 from preprocessing.chunking.fixed_chunker import FixedChunker
 from preprocessing.chunking.recursive_chunker import RecursiveChunker
 from preprocessing.chunking.semantic_chunker import Chunk

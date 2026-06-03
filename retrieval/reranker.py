@@ -3,7 +3,7 @@
 使用 Qwen3.5 对候选结果进行相关性判断和重排序
 """
 
-from typing import List, Dict, Any
+from typing import Any, Dict, List
 
 from core.llm import call_llama_cpp, parse_json_from_response
 

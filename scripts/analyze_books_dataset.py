@@ -3,13 +3,13 @@
 扫描 books 目录，从每个子目录随机抽4本书，分析文档和内容特征
 """
 
-import os
-import sys
 import json
+import os
 import random
-import chardet
+from collections import Counter
 from pathlib import Path
-from collections import defaultdict, Counter
+
+import chardet
 
 # 书籍根目录
 BOOKS_ROOT = Path(r"C:\Users\huiya\Desktop\books")
@@ -38,7 +38,7 @@ def get_txt_head(file_path, max_chars=5000):
         try:
             with open(file_path, "r", encoding=enc, errors="replace") as f:
                 return f.read(max_chars), enc
-        except:
+        except Exception:
             continue
     return "", encoding
 
@@ -55,10 +55,10 @@ def get_file_size_str(size_bytes):
 def detect_chapter_patterns(text):
     """检测章节模式"""
     patterns = {
-        "第X章": len([l for l in text.split('\n') if '第' in l and ('章' in l or '节' in l)]),
-        "数字序号(1.2.3)": len([l for l in text.split('\n') if l.strip() and l.strip()[0].isdigit() and '.' in l[:5]]),
-        "中文序号(一二三)": len([l for l in text.split('\n') if any(k in l[:5] for k in ['一、','二、','三、','四、','五、','六、','七、','八、','九、','十、'])]),
-        "括号序号": len([l for l in text.split('\n') if l.strip().startswith('（') and '）' in l[:10]]),
+        "第X章": len([line for line in text.split('\n') if '第' in line and ('章' in line or '节' in line)]),
+        "数字序号(1.2.3)": len([line for line in text.split('\n') if line.strip() and line.strip()[0].isdigit() and '.' in line[:5]]),
+        "中文序号(一二三)": len([line for line in text.split('\n') if any(k in line[:5] for k in ['一、','二、','三、','四、','五、','六、','七、','八、','九、','十、'])]),
+        "括号序号": len([line for line in text.split('\n') if line.strip().startswith('（') and '）' in line[:10]]),
     }
     return patterns
 
@@ -77,22 +77,22 @@ def analyze_book_file(file_path: Path):
         content, encoding = get_txt_head(file_path)
         result["encoding"] = encoding
         result["chars_analyzed"] = len(content) if content else 0
-        
+
         if content:
             lines = content.split('\n')
             result["lines_analyzed"] = len(lines)
             result["avg_line_length"] = round(len(content) / max(len(lines), 1), 1)
-            
+
             # 章节模式检测
             result["chapter_patterns"] = detect_chapter_patterns(content)
-            
+
             # 内容特征
             total_chars = len(content)
             chinese_chars = sum(1 for c in content if '\u4e00' <= c <= '\u9fff')
             english_chars = sum(1 for c in content if c.isascii() and c.isalpha())
             digit_chars = sum(1 for c in content if c.isdigit())
             punctuation = sum(1 for c in content if c in '，。、；：？！""''（）【】《》—…·.,;:?!\'\"()[]{}')
-            
+
             result["content_stats"] = {
                 "total_chars": total_chars,
                 "chinese_chars": chinese_chars,
@@ -101,7 +101,7 @@ def analyze_book_file(file_path: Path):
                 "digit_chars": digit_chars,
                 "punctuation": punctuation,
             }
-            
+
             # 内容类型判断
             if chinese_chars > 0.8 * total_chars:
                 result["content_type"] = "纯中文"
@@ -109,15 +109,15 @@ def analyze_book_file(file_path: Path):
                 result["content_type"] = "中英混合"
             else:
                 result["content_type"] = "英文/其他"
-            
+
             # 估计字数
             result["estimated_chars_total"] = result.get("chars_analyzed", 0)
-            
+
             # 表/代码/列表特征
             has_table = any('|' in line and '---' in content for line in lines)
             has_code = any('```' in line or '    ' in line[:4] for line in lines[:100])
             has_list = any(line.strip().startswith(('- ', '* ', '•')) for line in lines[:200])
-            
+
             markers = {
                 "contains_table": has_table,
                 "contains_code": has_code,
@@ -131,7 +131,7 @@ def main():
     # 获取所有子目录
     subdirs = sorted([d for d in BOOKS_ROOT.iterdir() if d.is_dir()])
     print(f"发现 {len(subdirs)} 个子目录\n")
-    
+
     all_samples = {}
     all_stats = {
         "total_subdirs": len(subdirs),
@@ -142,20 +142,20 @@ def main():
         "chapter_pattern_summary": Counter(),
         "size_distribution": Counter(),
     }
-    
+
     for subdir in subdirs:
         dir_name = subdir.name
         print(f"📂 [{dir_name}]")
-        
+
         # 收集所有文件（非目录）
         all_files = []
         for f in subdir.rglob("*"):
             if f.is_file() and f.suffix.lower() in SUPPORTED_EXTS:
                 all_files.append(f)
-        
+
         # 收集子目录本身（可能一本书就是一个目录）
         sub_folders = [d for d in subdir.iterdir() if d.is_dir()]
-        
+
         if not all_files:
             print(f"   ⚠️  没有直接文件，有 {len(sub_folders)} 个子目录\n")
             if sub_folders:
@@ -171,9 +171,9 @@ def main():
                         _update_stats(all_stats, result)
                         print(f"   📄 {sd.name}/{chosen.name}  ({result['size_str']}, {result.get('content_type','?')})")
             else:
-                print(f"   (空目录)")
+                print("   (空目录)")
             continue
-        
+
         # 从当前目录随机抽4本
         sample = random.sample(all_files, min(4, len(all_files)))
         for f in sample:
@@ -183,7 +183,7 @@ def main():
             all_stats["total_sampled"] += 1
             _update_stats(all_stats, result)
             print(f"   📄 {f.name}  ({result['size_str']}, {result.get('encoding','?')}, {result.get('content_type','?')})")
-        
+
         print()
 
     # 打印统计摘要
@@ -193,27 +193,27 @@ def main():
     print(f"总目录数: {all_stats['total_subdirs']}")
     print(f"抽样总数: {all_stats['total_sampled']}")
     print()
-    
+
     print("文件类型分布:")
     for ext, count in all_stats["file_types"].most_common():
         print(f"   {ext}: {count} ({round(count/all_stats['total_sampled']*100, 1)}%)")
     print()
-    
+
     print("内容编码分布:")
     for enc, count in all_stats["encodings"].most_common(10):
         print(f"   {enc}: {count}")
     print()
-    
+
     print("内容类型分布:")
     for ct, count in all_stats["content_types"].most_common():
         print(f"   {ct}: {count} ({round(count/all_stats['total_sampled']*100, 1)}%)")
     print()
-    
+
     print("文件大小分布:")
     for sz, count in all_stats["size_distribution"].most_common():
         print(f"   {sz}: {count}")
     print()
-    
+
     # 保存详细结果
     output = {
         "stats_summary": {
@@ -226,7 +226,7 @@ def main():
         },
         "samples": all_samples,
     }
-    
+
     OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2, default=str)
@@ -234,12 +234,12 @@ def main():
 
 def _update_stats(stats, result):
     stats["file_types"][result["suffix"]] += 1
-    
+
     if "encoding" in result:
         stats["encodings"][result["encoding"]] += 1
     if "content_type" in result:
         stats["content_types"][result["content_type"]] += 1
-    
+
     size = result["size_bytes"]
     if size < 100*1024:
         stats["size_distribution"]["<100KB"] += 1

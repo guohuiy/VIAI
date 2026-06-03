@@ -3,13 +3,11 @@ BGE-M3 向量生成模块
 通过 ONNX Runtime 本地运行 BGE-M3 嵌入模型
 """
 
-import os
-import json
 import time
-import numpy as np
-from typing import List, Optional
 from pathlib import Path
+from typing import List
 
+import numpy as np
 
 # BGE-M3 模型路径
 BGE_DIR = Path(__file__).resolve().parent.parent / "models" / "bge-m3"

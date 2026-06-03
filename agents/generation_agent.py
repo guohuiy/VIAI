@@ -3,11 +3,11 @@
 三段式生成策略：大纲 → 分段生成 → 后处理
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List
+
+from core.llm import call_llama_cpp
 
 from .base import BaseAgent
-from core.llm import call_llama_cpp, estimate_tokens
-from core.config import MODEL_CONFIG
 
 
 class GenerationAgent(BaseAgent):

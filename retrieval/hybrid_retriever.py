@@ -3,12 +3,13 @@
 融合向量检索 + 全文检索结果，使用 RRF 算法
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
 from core.config import RETRIEVAL_CONFIG
-from .vector_store import VectorStore
-from .fulltext_engine import FullTextEngine
 from core.embedding import get_embedding
+
+from .fulltext_engine import FullTextEngine
+from .vector_store import VectorStore
 
 
 class HybridRetriever:

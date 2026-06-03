@@ -4,8 +4,7 @@ SQLite FTS5 全文检索引擎
 """
 
 import sqlite3
-import os
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
 
 from core.config import STORAGE_CONFIG
 

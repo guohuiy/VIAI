@@ -2,10 +2,13 @@
 测试核心配置模块
 """
 
-import pytest
 from core.config import (
-    PROJECT_ROOT, MODEL_CONFIG, RETRIEVAL_CONFIG,
-    CHUNKING_CONFIG, STORAGE_CONFIG, RUNTIME_CONFIG, get_config,
+    CHUNKING_CONFIG,
+    MODEL_CONFIG,
+    PROJECT_ROOT,
+    RETRIEVAL_CONFIG,
+    STORAGE_CONFIG,
+    get_config,
 )
 
 

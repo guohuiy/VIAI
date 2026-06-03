@@ -4,10 +4,11 @@
 """
 
 import json
-from typing import Dict, Any, List
+from typing import Any, Dict
+
+from core.llm import call_llama_cpp, parse_json_from_response
 
 from .base import BaseAgent
-from core.llm import call_llama_cpp, parse_json_from_response
 
 
 class RequirementAgent(BaseAgent):

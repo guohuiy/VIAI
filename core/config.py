@@ -3,7 +3,6 @@
 管理模型路径、检索参数、分块参数等所有系统配置
 """
 
-import os
 from pathlib import Path
 
 # 项目根目录

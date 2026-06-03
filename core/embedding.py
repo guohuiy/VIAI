@@ -9,8 +9,8 @@
 """
 
 import os
-from typing import List
 from pathlib import Path
+from typing import List
 
 # BGE-M3 模型路径
 BGE_M3_DIR = Path(__file__).resolve().parent.parent / "models" / "bge-m3"
@@ -36,7 +36,7 @@ def _get_model():
             print(f"  [embedding] 使用 GPU: {torch.cuda.get_device_name(0)}")
         else:
             device = "cpu"
-            print(f"  [embedding] 使用 CPU")
+            print("  [embedding] 使用 CPU")
 
         _embedding_model = SentenceTransformer(model_path, device=device)
 

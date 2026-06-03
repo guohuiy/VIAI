@@ -14,8 +14,8 @@
   python scripts/build_index.py --skip-existing       # 跳过已有关闭向量
 """
 
-import sys
 import io
+import sys
 import time
 from pathlib import Path
 
@@ -24,9 +24,9 @@ sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='repla
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from storage.db import DatabaseManager
-from retrieval.vector_store import VectorStore
-from core.embedding import get_batch_embeddings
+from core.embedding import get_batch_embeddings  # noqa: E402
+from retrieval.vector_store import VectorStore  # noqa: E402
+from storage.db import DatabaseManager  # noqa: E402
 
 
 def main():
@@ -71,8 +71,6 @@ def main():
     failed = 0
     skipped = 0
     start_time = time.time()
-    last_report_time = time.time()
-
     for book_idx, book in enumerate(books):
         book_id = book["id"]
         title = book["title"]
@@ -175,7 +173,7 @@ def main():
     # 总结
     elapsed = time.time() - start_time
     print(f"\n{'='*50}")
-    print(f"📊 索引重建完成")
+    print("📊 索引重建完成")
     print(f"{'='*50}")
     print(f"  总 books:  {len(books)}")
     print(f"  总 chunks: {total_chunks}")

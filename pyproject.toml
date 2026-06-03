@@ -58,6 +58,7 @@ exclude = ["huiyo_env", "models", "data", "output", "runtime"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I"]
+ignore = ["E501"]
 
 [tool.coverage.run]
 source = ["core", "preprocessing", "retrieval", "agents", "services", "storage"]

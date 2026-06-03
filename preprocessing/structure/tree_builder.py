@@ -3,9 +3,9 @@
 基于识别的章节结构构建层级树
 """
 
-from typing import List, Dict, Any, Optional
-from dataclasses import dataclass, field
 import uuid
+from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional
 
 
 @dataclass

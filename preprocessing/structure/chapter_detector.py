@@ -5,10 +5,9 @@
 """
 
 import re
-from typing import List, Optional, Dict, Any
+from typing import Any, Dict, List
 
 from core.llm import call_llama_cpp, parse_json_from_response
-
 
 # 7种章节模式（按优先级从高到低排列）
 # 每项: (正则表达式, 层级)
