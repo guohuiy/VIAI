@@ -1,8 +1,8 @@
 """
-测试全文检索引擎
+测试全文检索引擎 - 使用独立的临时数据库
 """
-
 import os
+import sqlite3
 import tempfile
 
 import pytest
@@ -12,63 +12,27 @@ from retrieval.fulltext_engine import FullTextEngine
 
 @pytest.fixture
 def fts_tmp_db():
-    """创建临时 SQLite 数据库供全文检索测试"""
-    # 先确保 schema 文件存在
-    schema_sql = """
-    CREATE TABLE IF NOT EXISTS books (
-        id TEXT PRIMARY KEY,
-        title TEXT NOT NULL DEFAULT ''
-    );
-    CREATE TABLE IF NOT EXISTS chunks (
-        chunk_id TEXT PRIMARY KEY,
-        book_id TEXT NOT NULL,
-        content TEXT NOT NULL,
-        struct_path TEXT DEFAULT '',
-        start_char INTEGER DEFAULT 0,
-        end_char INTEGER DEFAULT 0,
-        heading_stack TEXT DEFAULT ''
-    );
-    CREATE VIRTUAL TABLE IF NOT EXISTS fts_chunks USING fts5(
-        chunk_id UNINDEXED, content
-    );
-    """
-    from pathlib import Path
-    schema_dir = Path(__file__).resolve().parent.parent / "storage"
-    schema_dir.mkdir(exist_ok=True)
-    schema_path = schema_dir / "schema.sql"
-    with open(schema_path, "w", encoding="utf-8") as f:
-        f.write(schema_sql)
-
-    # 创建临时数据库
+    """创建临时 FTS5 数据库"""
     tmp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
     db_path = tmp.name
     tmp.close()
 
-    # 初始化表结构
-    import sqlite3
+    # 初始化表和数据
     conn = sqlite3.connect(db_path)
-    conn.executescript(schema_sql)
-
-    # 插入示例数据
-    conn.execute("INSERT INTO books (id, title) VALUES ('b1', '测试书籍')")
-    conn.execute(
-        "INSERT INTO chunks (chunk_id, book_id, content) VALUES ('c1', 'b1', 'Python机器学习入门')"
-    )
-    conn.execute(
-        "INSERT INTO chunks (chunk_id, book_id, content) VALUES ('c2', 'b1', '深度学习与神经网络')"
-    )
-    conn.execute(
-        "INSERT INTO chunks (chunk_id, book_id, content) VALUES ('c3', 'b1', '数据统计分析基础')"
-    )
-    # 添加到 fts
-    conn.execute("INSERT INTO fts_chunks (chunk_id, content) VALUES ('c1', 'Python机器学习入门')")
-    conn.execute("INSERT INTO fts_chunks (chunk_id, content) VALUES ('c2', '深度学习与神经网络')")
-    conn.execute("INSERT INTO fts_chunks (chunk_id, content) VALUES ('c3', '数据统计分析基础')")
+    conn.execute("CREATE TABLE IF NOT EXISTS books (id TEXT PRIMARY KEY, title TEXT)")
+    conn.execute("CREATE TABLE IF NOT EXISTS chunks (chunk_id TEXT PRIMARY KEY, book_id TEXT, content TEXT)")
+    conn.execute("CREATE VIRTUAL TABLE IF NOT EXISTS fts_chunks USING fts5(chunk_id UNINDEXED, content)")
+    conn.execute("INSERT INTO books VALUES ('b1', '测试书籍')")
+    conn.execute("INSERT INTO chunks VALUES ('c1', 'b1', 'Python机器学习入门')")
+    conn.execute("INSERT INTO chunks VALUES ('c2', 'b1', '深度学习与神经网络')")
+    conn.execute("INSERT INTO fts_chunks VALUES ('c1', 'Python机器学习入门')")
+    conn.execute("INSERT INTO fts_chunks VALUES ('c2', '深度学习与神经网络')")
     conn.commit()
     conn.close()
 
     engine = FullTextEngine(db_path=db_path)
     yield engine
+
     engine.close()
     if os.path.exists(db_path):
         os.remove(db_path)
@@ -76,9 +40,6 @@ def fts_tmp_db():
         p = db_path + ext
         if os.path.exists(p):
             os.remove(p)
-    # 清理临时 schema
-    if schema_path.exists():
-        schema_path.unlink()
 
 
 class TestFullTextEngine:

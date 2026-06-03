@@ -165,7 +165,7 @@ class TestDatabaseManager:
 
     def test_add_chunk_tags(self, db_with_schema):
         db = db_with_schema
-        db.add_chunk("chunk-tag-test", {
+        db.add_chunk({
             "chunk_id": "tag-test", "book_id": "b1",
             "content": "tag content", "struct_path": "",
             "start_char": 0, "end_char": 11, "heading_stack": "",
